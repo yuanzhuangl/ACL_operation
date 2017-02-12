@@ -1,4 +1,5 @@
-#copyright Yuan
+#copyright Yuan-B00755386
+#Python 3
 
 #define read and write text file function
 def read_file(file_name):
