@@ -17,21 +17,20 @@ def write_file(file_name,list):
 def check_protocol(acl_line):
     if len(acl_line) == 9:
         if acl_line[3] == 'TCP':
-            if acl_line[8] == '20'or acl_line[8] == '21':
+            if acl_line[8] == 'eq.20'or acl_line[8] == 'eq.21':
                 return 'FTP'
-            elif acl_line[8] == '22':
+            elif acl_line[8] == 'eq.22':
                 return 'SSH'
-            elif acl_line[8] == '23':
+            elif acl_line[8] == 'eq.23':
                 return 'Telnet'
-            elif acl_line[8] == '80':
+            elif acl_line[8] == 'eq.80':
                 return 'HTTP'
         elif acl_line[3] == 'UDP':
-            if acl_line[8] == '161':
+            if acl_line[8] == 'eq.161':
                 return 'SNMP'
         elif acl_line[3] == 'IP':
             return 'ANY'
     else:
-        print(len(acl_line))
         return 'ANY'
 
 #check each line of standard acl
@@ -83,6 +82,7 @@ def ACL_operation(acl,packets):
                 item.append('denied\n')
                 #if the address can not match all acls,then deny
     if len(acl[0]) >= 8:
+
         for item in packets: #check each packet
             for line in acl[:-2]:#check if packet match line in acl
                 if check_ip_extended(line, item) == True:
@@ -94,6 +94,7 @@ def ACL_operation(acl,packets):
                 item.append('denied\n')
                 # if the address can not match all acls,then deny
     return packets
+
 
 if __name__ == '__main__':
     acl = read_file('ACL')
