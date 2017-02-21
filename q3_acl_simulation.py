@@ -73,25 +73,26 @@ def ACL_operation(acl,packets):
     if len(acl[0])==5 :
         for item in packets: #check each packet
             for line in acl[:-2]: #check if packet match line in acl
-                if check_ip_standard(line,item) == True:
-                    item.append('%s\n'%dict[line[2]])
-                    break
+                if len(item) < 3 and len(line) < 4:
+                    item.append('denied\n')
                 else:
-                    continue
-            if  len(item) < 3:
-                item.append('denied\n')
+                    if check_ip_standard(line,item) == True:
+                        item.append('%s\n'%dict[line[2]])
+                        break
+                    else:
+                        continue
                 #if the address can not match all acls,then deny
     if len(acl[0]) >= 8:
-
         for item in packets: #check each packet
             for line in acl[:-2]:#check if packet match line in acl
-                if check_ip_extended(line, item) == True:
-                    item.append('%s\n' % dict[line[2]])
-                    break
+                if len(item) < 4 and len(line) <4:
+                    item.append('denied\n')
                 else:
-                    continue
-            if len(item) < 4:
-                item.append('denied\n')
+                    if check_ip_extended(line, item) == True:
+                        item.append('%s\n' % dict[line[2]])
+                        break
+                    else:
+                        continue
                 # if the address can not match all acls,then deny
     return packets
 
